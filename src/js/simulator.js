@@ -18,7 +18,8 @@ var SIMULATOR = (function () {
                 y: 0,
                 facing: null
             },
-            command: null
+            command: null,
+            reports: []
         };
 
     }
@@ -51,6 +52,7 @@ var SIMULATOR = (function () {
                     this.left();
                     break;
                 case 'REPORT':
+                    this.CONFIG.reports.push(this.report());
                     break;
                 default:
                     s = this.CONFIG.commands[i].substring(1 + this.CONFIG.commands[i].indexOf(' '));

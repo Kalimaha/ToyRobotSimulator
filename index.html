@@ -1,15 +1,74 @@
 <html>
     <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'>
+        <meta name='format-detection' content='telephone=no'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+        <meta name='description' content=''>
         <script src="https://code.jquery.com/jquery-2.2.1.min.js" type="application/javascript"></script>
         <script type="application/javascript" src="src/js/simulator.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script type="application/javascript">
             function init() {
-                var s = new SIMULATOR();
-                console.log(s.CONFIG);
+                $('#execute').click(function () {
+                    var s = new SIMULATOR(),
+                            placeholder = $('#report');
+                    placeholder.empty();
+                    var usr = $('#commands').val().split(';'),
+                            commands = [],
+                            i;
+                    for (i = 0; i < usr.length; i += 1) {
+                        if (usr[i].length > 0) {
+                            commands.push(usr[i].trim());
+                        }
+                    }
+                    s.execute(commands);
+                    for (i = 0; i < s.CONFIG.reports.length; i += 1) {
+                        placeholder.append('<div>' + s.CONFIG.reports[i] + '</div><br>');
+                    }
+                });
             }
         </script>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body onload="init();">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>
+                        Toy Robot Simulator
+                    </h1>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    <label for="commands">
+                        Enter commands, separated by ";" <i>(e.g. PLACE 0,0,NORTH; MOVE; REPORT;)</i>
+                    </label>
+                    <input class="form-control" id="commands" value="PLACE 0,0,NORTH; MOVE; REPORT;"/>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-12">
+                    <button class="btn btn-primary" id="execute" style="width: 100%;">
+                        Execute Commands
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <h2>
+                Report
+            </h2>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="report">
 
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
