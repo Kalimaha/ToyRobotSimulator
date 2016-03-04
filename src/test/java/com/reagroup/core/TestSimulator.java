@@ -339,42 +339,23 @@
  * library.  If this is what you want to do, use the GNU Lesser General
  * Public License instead of this License.
  */
-package com.reagroup.beans;
+package com.reagroup.core;
 
+import com.reagroup.beans.Position;
 import com.reagroup.constants.FACING;
 import junit.framework.TestCase;
 
 /**
  * @author <a href="mailto:guido.barbaglia@gmail.com">Guido Barbaglia</a>
  */
-public class TestPosition extends TestCase {
+public class TestSimulator extends TestCase {
 
-    public void testConstructor() {
-        Position p = new Position(0, 0, FACING.NORTH);
-        assertEquals(0, p.getX());
-        assertEquals(0, p.getY());
-        assertEquals(FACING.NORTH, p.getFacing());
-    }
-
-    public void testX() {
-        Position p = new Position(0, 0, FACING.NORTH);
-        assertEquals(0, p.getX());
-        p.setX(10);
-        assertEquals(10, p.getX());
-    }
-
-    public void testY() {
-        Position p = new Position(0, 0, FACING.NORTH);
-        assertEquals(0, p.getY());
-        p.setY(10);
-        assertEquals(10, p.getY());
-    }
-
-    public void testFacing() {
-        Position p = new Position(0, 0, FACING.NORTH);
-        assertEquals(FACING.NORTH, p.getFacing());
-        p.setFacing(FACING.SOUTH);
-        assertEquals(FACING.SOUTH, p.getFacing());
+    public void testPosition() {
+        Simulator s = new Simulator();
+        s.setPosition(new Position(0, 0, FACING.NORTH));
+        assertEquals(0, s.getPosition().getX());
+        assertEquals(0, s.getPosition().getY());
+        assertEquals(FACING.NORTH, s.getPosition().getFacing());
     }
 
 }

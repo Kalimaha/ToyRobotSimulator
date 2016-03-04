@@ -339,42 +339,23 @@
  * library.  If this is what you want to do, use the GNU Lesser General
  * Public License instead of this License.
  */
-package com.reagroup.beans;
+package com.reagroup.core;
 
-import com.reagroup.constants.FACING;
-import junit.framework.TestCase;
+import com.reagroup.beans.Position;
 
 /**
  * @author <a href="mailto:guido.barbaglia@gmail.com">Guido Barbaglia</a>
  */
-public class TestPosition extends TestCase {
+public class Simulator {
 
-    public void testConstructor() {
-        Position p = new Position(0, 0, FACING.NORTH);
-        assertEquals(0, p.getX());
-        assertEquals(0, p.getY());
-        assertEquals(FACING.NORTH, p.getFacing());
+    private Position position;
+
+    public Position getPosition() {
+        return position;
     }
 
-    public void testX() {
-        Position p = new Position(0, 0, FACING.NORTH);
-        assertEquals(0, p.getX());
-        p.setX(10);
-        assertEquals(10, p.getX());
-    }
-
-    public void testY() {
-        Position p = new Position(0, 0, FACING.NORTH);
-        assertEquals(0, p.getY());
-        p.setY(10);
-        assertEquals(10, p.getY());
-    }
-
-    public void testFacing() {
-        Position p = new Position(0, 0, FACING.NORTH);
-        assertEquals(FACING.NORTH, p.getFacing());
-        p.setFacing(FACING.SOUTH);
-        assertEquals(FACING.SOUTH, p.getFacing());
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
 }
