@@ -42,3 +42,18 @@ produces the following output:
 ```
 X: 0, Y: 1, FACING: NORTH
 ```
+
+RequireJS
+---------
+
+This implmentation can be found in the [requirejs branch](https://github.com/Kalimaha/ToyRobotSimulator/tree/requirejs) of the project. RequireJS has been added to the JavaScript implementation of the project, which allows the asynchronous module loading and the integration of the Jasmine test with TravisCI. The continuous integration can be found at [this link](https://travis-ci.org/Kalimaha/ToyRobotSimulator/builds/113849016). The test [index.html](https://github.com/Kalimaha/ToyRobotSimulator/blob/requirejs/index.html) has been altered with a reference to the [main.js](https://github.com/Kalimaha/ToyRobotSimulator/blob/requirejs/src/js/main.js) which is in charge of loading the required modules and implement the business logic. The demo page offers a command line to input instruction (*separated by the ```;``` character*) to interact with the toy robot. The following example:
+
+```
+PLACE 0,0,NORTH; MOVE; REPORT;
+```
+
+produces the following output:
+
+```
+X: 0, Y: 1, FACING: NORTH
+```
