@@ -21,12 +21,31 @@ public class TestSimulator extends TestCase {
         assertEquals(FACING.NORTH, s.getPosition().getFacing());
         assertEquals(5, s.getTable().getWidth());
         assertEquals(5, s.getTable().getHeight());
+        assertNotNull(s.getReports());
     }
 
     public void testExecute() {
-        String[] commands = {"PLACE 0,0,NORTH", "MOVE", "REPORT"};
+        String[] commands_1 = {"PLACE 0,0,NORTH", "MOVE", "REPORT"};
         try {
-            s.execute(commands);
+            s.execute(commands_1);
+            assertEquals("X: 0, Y: 1, FACING: NORTH", s.report());
+            assertEquals("X: 0, Y: 1, FACING: NORTH", s.getReports().get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String[] commands_2 = {"PLACE 0,0,NORTH", "LEFT", "REPORT"};
+        try {
+            s.execute(commands_2);
+            assertEquals("X: 0, Y: 0, FACING: WEST", s.report());
+            assertEquals("X: 0, Y: 0, FACING: WEST", s.getReports().get(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String[] commands_3 = {"PLACE 1,2,EAST", "MOVE", "MOVE", "LEFT", "MOVE", "REPORT"};
+        try {
+            s.execute(commands_3);
+            assertEquals("X: 3, Y: 3, FACING: NORTH", s.report());
+            assertEquals("X: 3, Y: 3, FACING: NORTH", s.getReports().get(2));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,19 +72,19 @@ public class TestSimulator extends TestCase {
         }
         command = "PARSE z,0,NORTH";
         try {
-            p = s.parsePosition(command);
+            s.parsePosition(command);
         } catch (Exception e) {
             assertEquals("X is not a valid coordinate.", e.getMessage());
         }
         command = "PARSE 0,z,NORTH";
         try {
-            p = s.parsePosition(command);
+            s.parsePosition(command);
         } catch (Exception e) {
             assertEquals("Y is not a valid coordinate.", e.getMessage());
         }
         command = "PARSE 0,0,z";
         try {
-            p = s.parsePosition(command);
+            s.parsePosition(command);
         } catch (Exception e) {
             assertEquals("FACING is not a valid value.", e.getMessage());
         }
@@ -123,6 +142,19 @@ public class TestSimulator extends TestCase {
 
     public void testReport() {
         assertEquals("X: 0, Y: 0, FACING: NORTH", s.report());
+    }
+
+    public void testIsValidPosition() {
+        Position p = new Position(0, 0, FACING.NORTH);
+        assertTrue(s.isValidPosition(p));
+        p = new Position(-3, 0, FACING.NORTH);
+        assertFalse(s.isValidPosition(p));
+        p = new Position(10, 0, FACING.NORTH);
+        assertFalse(s.isValidPosition(p));
+        p = new Position(0, -3, FACING.NORTH);
+        assertFalse(s.isValidPosition(p));
+        p = new Position(0, 10, FACING.NORTH);
+        assertFalse(s.isValidPosition(p));
     }
 
 }

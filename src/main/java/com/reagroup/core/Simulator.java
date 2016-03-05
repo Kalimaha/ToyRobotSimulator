@@ -5,7 +5,9 @@ import com.reagroup.beans.Table;
 import com.reagroup.constants.COMMAND;
 import com.reagroup.constants.FACING;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author <a href="mailto:guido.barbaglia@gmail.com">Guido Barbaglia</a>
@@ -16,9 +18,12 @@ public class Simulator {
 
     private Table table;
 
+    private List<String> reports;
+
     public Simulator() {
         this.setTable(new Table());
         this.setPosition(new Position(0, 0, FACING.NORTH));
+        this.setReports(new ArrayList<String>());
     }
 
     public void execute(String[] commands) throws Exception {
@@ -33,12 +38,16 @@ public class Simulator {
             try {
                 switch (COMMAND.valueOf(command.toUpperCase())) {
                     case MOVE:
+                        this.move();
                         break;
                     case LEFT:
+                        this.left();
                         break;
                     case RIGHT:
+                        this.right();
                         break;
                     case REPORT:
+                        this.getReports().add(this.report());
                         break;
                 }
             }
@@ -86,7 +95,15 @@ public class Simulator {
     }
 
     public void place(Position p) {
-        this.setPosition(p);
+        if (isValidPosition(p)) {
+            this.setPosition(p);
+        }
+    }
+
+    public boolean isValidPosition(Position p) {
+        boolean x = p.getX() > -1 && p.getX() < this.getTable().getWidth();
+        boolean y = p.getY() > -1 && p.getY() < this.getTable().getHeight();
+        return x && y;
     }
 
     public void move() {
@@ -168,6 +185,14 @@ public class Simulator {
 
     public void setTable(Table table) {
         this.table = table;
+    }
+
+    public List<String> getReports() {
+        return reports;
+    }
+
+    public void setReports(List<String> reports) {
+        this.reports = reports;
     }
 
 }
