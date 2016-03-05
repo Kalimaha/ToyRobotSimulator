@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Kalimaha/ToyRobotSimulator.svg?branch=javascript)](https://travis-ci.org/Kalimaha/ToyRobotSimulator)
+[![Build Status](https://travis-ci.org/Kalimaha/ToyRobotSimulator.svg?branch=requirejs)](https://travis-ci.org/Kalimaha/ToyRobotSimulator)
 
 Toy Robot Simulator
 ===================
