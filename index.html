@@ -6,33 +6,10 @@
         <meta http-equiv='X-UA-Compatible' content='IE=edge'>
         <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
         <meta name='description' content=''>
-        <script src="https://code.jquery.com/jquery-2.2.1.min.js" type="application/javascript"></script>
-        <script type="application/javascript" src="src/js/simulator.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script type="application/javascript">
-            function init() {
-                $('#execute').click(function () {
-                    var s = new SIMULATOR(),
-                            placeholder = $('#report');
-                    placeholder.empty();
-                    var usr = $('#commands').val().split(';'),
-                            commands = [],
-                            i;
-                    for (i = 0; i < usr.length; i += 1) {
-                        if (usr[i].length > 0) {
-                            commands.push(usr[i].trim());
-                        }
-                    }
-                    s.execute(commands);
-                    for (i = 0; i < s.CONFIG.reports.length; i += 1) {
-                        placeholder.append('<div>' + s.CONFIG.reports[i] + '</div><br>');
-                    }
-                });
-            }
-        </script>
+        <script data-main='src/js/main' src='src/js/libs/require.js'></script>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     </head>
-    <body onload="init();">
+    <body>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
