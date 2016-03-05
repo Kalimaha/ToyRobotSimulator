@@ -239,17 +239,17 @@ describe('Toy Robot Simulator', function () {
 
     describe('Execution', function () {
 
-        it('PLACE 0,0,NORTH then MOVE then REPORT', function () {
+        it('Execution plan: PLACE 0,0,NORTH then MOVE then REPORT', function () {
             s.execute(['PLACE 0,0,NORTH', 'MOVE', 'REPORT']);
             expect(s.report()).toEqual('X: 0, Y: 1, FACING: NORTH');
         });
 
-        it('PLACE 0,0,NORTH then MOVE then REPORT', function () {
+        it('Execution plan: PLACE 0,0,NORTH then MOVE then REPORT', function () {
             s.execute(['PLACE 0,0,NORTH', 'LEFT', 'REPORT']);
             expect(s.report()).toEqual('X: 0, Y: 0, FACING: WEST');
         });
 
-        it('PLACE 1,2,EAST then MOVE, then MOVE, then LEFT then MOVE then REPORT', function () {
+        it('Execution plan: PLACE 1,2,EAST then MOVE, then MOVE, then LEFT then MOVE then REPORT', function () {
             s.execute(['PLACE 1,2,EAST', 'MOVE', 'MOVE', 'LEFT', 'MOVE', 'REPORT']);
             expect(s.report()).toEqual('X: 3, Y: 3, FACING: NORTH');
         });
