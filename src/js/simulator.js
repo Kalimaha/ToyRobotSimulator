@@ -33,15 +33,8 @@ define(['jquery'], function ($) {
             s,
             params;
         this.CONFIG.commands = commands;
-        console.log(commands);
-        console.log(this.CONFIG.commands);
         if (Array.isArray(commands)) {
-            console.log('array');
-            console.log(this.CONFIG.commands.length);
             for (i = 0; i < this.CONFIG.commands.length; i += 1) {
-                console.log(i);
-                console.log(this.CONFIG.commands[i]);
-                console.log(this.CONFIG.commands[i].toUpperCase());
                 if (this.CONFIG.commands[i].toUpperCase().indexOf('PLACE') > -1) {
                     this.CONFIG.start_idx = i;
                     break;
