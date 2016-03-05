@@ -1,5 +1,5 @@
-/*global $*/
-var SIMULATOR = (function () {
+/*global define*/
+define(['jquery'], function ($) {
 
     'use strict';
 
@@ -154,4 +154,4 @@ var SIMULATOR = (function () {
 
     return SIM;
 
-}());
+});
