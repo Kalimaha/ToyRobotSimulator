@@ -42,7 +42,7 @@ define(['jquery'], function ($) {
                 console.log(i);
                 console.log(this.CONFIG.commands[i]);
                 console.log(this.CONFIG.commands[i].toUpperCase());
-                if (this.CONFIG.commands[i].toUpperCase().startsWith('PLACE')) {
+                if (this.CONFIG.commands[i].toUpperCase().indexOf('PLACE') > -1) {
                     this.CONFIG.start_idx = i;
                     break;
                 }
