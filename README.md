@@ -3,8 +3,10 @@ Toy Robot Simulator
 
 There are three different implementations for this project. Please find the details for each of them below.
 
-Java
+Java 
 ----
+[![Build Status](https://travis-ci.org/Kalimaha/ToyRobotSimulator.svg?branch=java)](https://travis-ci.org/Kalimaha/ToyRobotSimulator)
+[![Coverage Status](https://coveralls.io/repos/github/Kalimaha/ToyRobotSimulator/badge.svg?branch=java)](https://coveralls.io/github/Kalimaha/ToyRobotSimulator?branch=java)
 
 This implementation can be found in the [Java Branch](https://github.com/Kalimaha/ToyRobotSimulator/tree/java) of this project. The project has been developed with [Maven](https://maven.apache.org/). To run the tests simply invoke:
 
