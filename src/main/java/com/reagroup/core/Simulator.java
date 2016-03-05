@@ -342,6 +342,7 @@
 package com.reagroup.core;
 
 import com.reagroup.beans.Position;
+import com.reagroup.beans.Table;
 import com.reagroup.constants.COMMAND;
 import com.reagroup.constants.FACING;
 
@@ -354,7 +355,14 @@ public class Simulator {
 
     private Position position;
 
-    public void execute(String[] commands) {
+    private Table table;
+
+    public Simulator() {
+        this.setTable(new Table());
+        this.setPosition(new Position(0, 0, FACING.NORTH));
+    }
+
+    public void execute(String[] commands) throws Exception {
 
         /* The application should discard all commands in the sequence until a valid PLACE command has been executed. */
         commands = cleanCommands(commands);
@@ -378,7 +386,7 @@ public class Simulator {
 
             /* Parse the arguments for the PLACE command. */
             catch (IllegalArgumentException e) {
-                System.out.println(command);
+                place(parsePosition(command));
             }
 
         }
@@ -418,12 +426,33 @@ public class Simulator {
         return null;
     }
 
-    public void place(String command) {
-
+    public void place(Position p) {
+        this.setPosition(p);
     }
 
     public void move() {
-
+        switch (this.getPosition().getFacing()) {
+            case EAST:
+                if (this.getPosition().getX() + 1 < this.getTable().getWidth()) {
+                    this.getPosition().setX(this.getPosition().getX() + 1);
+                }
+                break;
+            case WEST:
+                if (this.getPosition().getX() - 1 > -1) {
+                    this.getPosition().setX(this.getPosition().getX() - 1);
+                }
+                break;
+            case NORTH:
+                if (this.getPosition().getY() + 1 < this.getTable().getHeight()) {
+                    this.getPosition().setY(this.getPosition().getY() + 1);
+                }
+                break;
+            case SOUTH:
+                if (this.getPosition().getY() - 1 > -1) {
+                    this.getPosition().setY(this.getPosition().getY() - 1);
+                }
+                break;
+        }
     }
 
     public void left() {
@@ -444,6 +473,14 @@ public class Simulator {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
     }
 
 }
