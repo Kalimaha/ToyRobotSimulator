@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/Kalimaha/ToyRobotSimulator.svg?branch=master)](https://travis-ci.org/Kalimaha/ToyRobotSimulator)
+[![Coverage Status](https://coveralls.io/repos/github/Kalimaha/ToyRobotSimulator/badge.svg?branch=java)](https://coveralls.io/github/Kalimaha/ToyRobotSimulator?branch=java)
+
 Toy Robot Simulator
 ===================
 
