@@ -31,7 +31,7 @@ X: 0, Y: 1, FACING: NORTH
 JavaScript
 ----------
 
-This implementation can be found in the [javascript branch](https://github.com/Kalimaha/ToyRobotSimulator/tree/javascript) of the project. Tests have been developed using the BDD framework [Jasmine](http://jasmine.github.io/). To run the test please open the ```test/SpecRunner.html``` web page with a modern browser. A simple [index.html](https://github.com/Kalimaha/ToyRobotSimulator/blob/javascript/index.html) test page developed with [Bootstrap](http://getbootstrap.com/) is available in the project root. This page offers a command line to input instruction (___separated by the ```;``` character___) to interact with the toy robot. The following example:
+This implementation can be found in the [javascript branch](https://github.com/Kalimaha/ToyRobotSimulator/tree/javascript) of the project. Tests have been developed using the BDD framework [Jasmine](http://jasmine.github.io/). To run the test please open the ```test/SpecRunner.html``` web page with a modern browser. A simple [index.html](https://github.com/Kalimaha/ToyRobotSimulator/blob/javascript/index.html) test page developed with [Bootstrap](http://getbootstrap.com/) is available in the project root. This page offers a command line to input instruction (*separated by the ```;``` character*) to interact with the toy robot. The following example:
 
 ```
 PLACE 0,0,NORTH; MOVE; REPORT;
