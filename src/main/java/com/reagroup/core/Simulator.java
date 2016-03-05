@@ -49,6 +49,11 @@ public class Simulator {
         /* The application should discard all commands in the sequence until a valid PLACE command has been executed. */
         commands = cleanCommands(commands);
 
+        /* Alert the user when no valid commands are available. */
+        if (commands == null) {
+            throw new Exception("Please provide a valid list of commands. The first command must be PLACE.");
+        }
+
         /* Iterate over commands. */
         for (String command : commands) {
 
