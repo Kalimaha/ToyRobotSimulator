@@ -358,4 +358,51 @@ public class TestSimulator extends TestCase {
         assertEquals(FACING.NORTH, s.getPosition().getFacing());
     }
 
+    public void testExecute() {
+        Simulator s = new Simulator();
+        String[] commands = {"PLACE 0,0,NORTH", "MOVE", "REPORT"};
+        s.execute(commands);
+    }
+
+    /* The application should discard all commands in the sequence until a valid PLACE command has been executed. */
+    public void testCleanCommands() {
+        Simulator s = new Simulator();
+        String[] commands = {"REPORT", "MOVE", "not a command", "PLACE 0,0,NORTH", "MOVE", "REPORT"};
+        commands = s.cleanCommands(commands);
+        assertEquals(3, commands.length);
+        assertEquals("PLACE 0,0,NORTH", commands[0]);
+    }
+
+    public void testParsePosition() {
+        Simulator s = new Simulator();
+        String command = "PARSE 0,0,NORTH";
+        Position p;
+        try {
+            p = s.parsePosition(command);
+            assertEquals(0, p.getX());
+            assertEquals(0, p.getY());
+            assertEquals(FACING.NORTH, p.getFacing());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        command = "PARSE z,0,NORTH";
+        try {
+            p = s.parsePosition(command);
+        } catch (Exception e) {
+            assertEquals("X is not a valid coordinate.", e.getMessage());
+        }
+        command = "PARSE 0,z,NORTH";
+        try {
+            p = s.parsePosition(command);
+        } catch (Exception e) {
+            assertEquals("Y is not a valid coordinate.", e.getMessage());
+        }
+        command = "PARSE 0,0,z";
+        try {
+            p = s.parsePosition(command);
+        } catch (Exception e) {
+            assertEquals("FACING is not a valid value.", e.getMessage());
+        }
+    }
+
 }

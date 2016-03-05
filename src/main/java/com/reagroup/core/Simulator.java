@@ -342,6 +342,10 @@
 package com.reagroup.core;
 
 import com.reagroup.beans.Position;
+import com.reagroup.constants.COMMAND;
+import com.reagroup.constants.FACING;
+
+import java.util.Arrays;
 
 /**
  * @author <a href="mailto:guido.barbaglia@gmail.com">Guido Barbaglia</a>
@@ -349,6 +353,90 @@ import com.reagroup.beans.Position;
 public class Simulator {
 
     private Position position;
+
+    public void execute(String[] commands) {
+
+        /* The application should discard all commands in the sequence until a valid PLACE command has been executed. */
+        commands = cleanCommands(commands);
+
+        /* Iterate over commands. */
+        for (String command : commands) {
+
+            /* MOVE, LEFT, RIGHT and REPORT have no arguments. */
+            try {
+                switch (COMMAND.valueOf(command.toUpperCase())) {
+                    case MOVE:
+                        break;
+                    case LEFT:
+                        break;
+                    case RIGHT:
+                        break;
+                    case REPORT:
+                        break;
+                }
+            }
+
+            /* Parse the arguments for the PLACE command. */
+            catch (IllegalArgumentException e) {
+                System.out.println(command);
+            }
+
+        }
+
+    }
+
+    public Position parsePosition(String command) throws Exception {
+        String tmp = command.substring(1 + command.indexOf(' '));
+        String[] p = tmp.split(",");
+        int x, y;
+        FACING f;
+        try {
+            x = Integer.parseInt(p[0]);
+        } catch (NumberFormatException e) {
+            throw new Exception("X is not a valid coordinate.");
+        }
+        try {
+            y = Integer.parseInt(p[1]);
+        } catch (NumberFormatException e) {
+            throw new Exception("Y is not a valid coordinate.");
+        }
+        try {
+            f = FACING.valueOf(p[2].toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new Exception("FACING is not a valid value.");
+        }
+        return new Position(x, y, FACING.valueOf(p[2].toUpperCase()));
+    }
+
+    /* The application should discard all commands in the sequence until a valid PLACE command has been executed. */
+    public String[] cleanCommands(String[] commands) {
+        for (int i = 0; i < commands.length; i += 1) {
+            if (commands[i].toUpperCase().startsWith("PLACE")) {
+                return Arrays.copyOfRange(commands, i, commands.length);
+            }
+        }
+        return null;
+    }
+
+    public void place(String command) {
+
+    }
+
+    public void move() {
+
+    }
+
+    public void left() {
+
+    }
+
+    public void right() {
+
+    }
+
+    public void report() {
+
+    }
 
     public Position getPosition() {
         return position;
