@@ -51,6 +51,30 @@ public class TestSimulator extends TestCase {
         }
     }
 
+    public void testExecuteFromFile() {
+        try {
+            s.executeFromFile("EXAMPLE_A.txt");
+            assertEquals("X: 0, Y: 1, FACING: NORTH", s.report());
+            assertEquals("X: 0, Y: 1, FACING: NORTH", s.getReports().get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            s.executeFromFile("EXAMPLE_B.txt");
+            assertEquals("X: 0, Y: 0, FACING: WEST", s.report());
+            assertEquals("X: 0, Y: 0, FACING: WEST", s.getReports().get(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            s.executeFromFile("EXAMPLE_C.txt");
+            assertEquals("X: 3, Y: 3, FACING: NORTH", s.report());
+            assertEquals("X: 3, Y: 3, FACING: NORTH", s.getReports().get(2));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /* The application should discard all commands in the sequence until a valid PLACE command has been executed. */
     public void testCleanCommands() {
         String[] commands = {"REPORT", "MOVE", "not a command", "PLACE 1,2,NORTH", "MOVE", "REPORT"};

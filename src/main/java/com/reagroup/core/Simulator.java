@@ -5,9 +5,12 @@ import com.reagroup.beans.Table;
 import com.reagroup.constants.COMMAND;
 import com.reagroup.constants.FACING;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author <a href="mailto:guido.barbaglia@gmail.com">Guido Barbaglia</a>
@@ -24,6 +27,21 @@ public class Simulator {
         this.setTable(new Table());
         this.setPosition(new Position(0, 0, FACING.NORTH));
         this.setReports(new ArrayList<String>());
+    }
+
+    public void executeFromFile(String filename) throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(filename).getFile());
+        List<String> fileCommands = new ArrayList<>();
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                fileCommands.add(line.trim());
+            }
+        }
+        String[] commands = new String[fileCommands.size()];
+        commands = fileCommands.toArray(commands);
+        execute(commands);
     }
 
     public void execute(String[] commands) throws Exception {
