@@ -54,45 +54,83 @@ public class TestSimulator extends TestCase {
         assertFalse(s.isValidPosition(p));
     }
 
-    public void testSimulate() {
+    public void testSimulateFromCommandLine() {
         String[] l1 = new String[]{"place 0,0,north", "move", "report"};
         try {
-            s.simulate(l1);
+            s.simulateFromCommandLine(l1);
             assertEquals(0, s.getRobot().getPosition().getX());
             assertEquals(1, s.getRobot().getPosition().getY());
             assertEquals(FACING.NORTH, s.getRobot().getFacing());
         } catch (Exception e) {
-            e.printStackTrace();
+            fail();
         }
         String[] l2 = new String[]{"place 0,0,north", "left", "report"};
         try {
-            s.simulate(l2);
+            s.simulateFromCommandLine(l2);
             assertEquals(0, s.getRobot().getPosition().getX());
             assertEquals(0, s.getRobot().getPosition().getY());
             assertEquals(FACING.WEST, s.getRobot().getFacing());
         } catch (Exception e) {
-            e.printStackTrace();
+            fail();
         }
         String[] l3 = new String[]{"place 1,2,east", "move", "move", "left", "move", "report"};
         try {
-            s.simulate(l3);
+            s.simulateFromCommandLine(l3);
             assertEquals(3, s.getRobot().getPosition().getX());
             assertEquals(3, s.getRobot().getPosition().getY());
             assertEquals(FACING.NORTH, s.getRobot().getFacing());
         } catch (Exception e) {
-            e.printStackTrace();
+            fail();
         }
         String[] l4 = new String[]{"place 5,5,east"};
         try {
-            s.simulate(l4);
+            s.simulateFromCommandLine(l4);
         } catch (Exception e) {
             assertEquals("The robot is OUT of the table! The simulation ends.", e.getMessage());
         }
         String[] l5 = new String[]{"place 0,0,east", "move", "move", "move", "move", "move"};
         try {
-            s.simulate(l5);
+            s.simulateFromCommandLine(l5);
         } catch (Exception e) {
             assertEquals("The robot is OUT of the table! The simulation ends.", e.getMessage());
+        }
+    }
+
+    public void testSimulateFromFile() {
+        String filename = "EXAMPLE_A.txt";
+        try {
+            s.simulateFromFile(filename);
+            assertEquals(0, s.getRobot().getPosition().getX());
+            assertEquals(1, s.getRobot().getPosition().getY());
+            assertEquals(FACING.NORTH, s.getRobot().getFacing());
+        } catch (Exception e) {
+            fail();
+        }
+        filename = "EXAMPLE_B.txt";
+        try {
+            s.simulateFromFile(filename);
+            assertEquals(0, s.getRobot().getPosition().getX());
+            assertEquals(0, s.getRobot().getPosition().getY());
+            assertEquals(FACING.WEST, s.getRobot().getFacing());
+        } catch (Exception e) {
+            fail();
+        }
+        filename = "EXAMPLE_C.txt";
+        try {
+            s.simulateFromFile(filename);
+            assertEquals(3, s.getRobot().getPosition().getX());
+            assertEquals(3, s.getRobot().getPosition().getY());
+            assertEquals(FACING.NORTH, s.getRobot().getFacing());
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    public void testSimulate() {
+        try {
+            s.simulate(new String[]{});
+        } catch (Exception e) {
+            assertEquals("Please provide a list of commands.", e.getMessage());
         }
     }
 

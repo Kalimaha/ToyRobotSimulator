@@ -7,8 +7,10 @@ import com.reagroup.commands.Command;
 import com.reagroup.constants.COMMANDS;
 import com.reagroup.utils.StringToCommandConverter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author <a href="mailto:guido.barbaglia@gmail.com">Guido Barbaglia</a>
@@ -25,10 +27,32 @@ public class Simulator {
     }
 
     /**
-     * This is the main method of the simulator.
+     * The entry method route the user either to the file-based or to the commands-based simulation.
      * @param commands List of commands to be executed by the simulator.
      */
     public void simulate(String[] commands) throws Exception {
+        switch (commands.length) {
+            case 0:
+                throw new Exception("Please provide a list of commands.");
+            case 1:
+                if (commands[0].trim().toLowerCase().endsWith(".txt")) {
+                    simulateFromFile(commands[0]);
+                } else {
+                    simulateFromCommandLine(commands);
+                }
+                break;
+            default:
+                simulateFromCommandLine(commands);
+                break;
+        }
+    }
+
+    /**
+     * Parse and execute a list of commands.
+     * @param commands List of commands.
+     * @throws Exception Thrown when the robot falls off the table.
+     */
+    public void simulateFromCommandLine(String[] commands) throws Exception {
         Command c;
         commands = this.cleanCommandsList(commands);
         for (String commandString : commands) {
@@ -40,6 +64,26 @@ public class Simulator {
             }
         }
         System.out.println();
+    }
+
+    /**
+     * Read the commands list from a file.
+     * @param commandsFilename The name of the file containing the commands list.
+     * @throws Exception Related to the file loading.
+     */
+    public void simulateFromFile(String commandsFilename) throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(commandsFilename).getFile());
+        List<String> fileCommands = new ArrayList<>();
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                fileCommands.add(line.trim());
+            }
+        }
+        String[] commands = new String[fileCommands.size()];
+        commands = fileCommands.toArray(commands);
+        this.simulateFromCommandLine(commands);
     }
 
     /**
