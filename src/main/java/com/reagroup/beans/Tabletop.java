@@ -3,17 +3,17 @@ package com.reagroup.beans;
 /**
  * @author <a href="mailto:guido.barbaglia@gmail.com">Guido Barbaglia</a>
  */
-public class Table {
+public class Tabletop {
 
     private int width = 5;
 
     private int height = 5;
 
-    public Table() {
+    public Tabletop() {
 
     }
 
-    public Table(int width, int height) {
+    public Tabletop(int width, int height) {
         this.setWidth(width);
         this.setHeight(height);
     }

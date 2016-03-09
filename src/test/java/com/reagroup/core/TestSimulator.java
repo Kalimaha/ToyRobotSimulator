@@ -9,176 +9,91 @@ import junit.framework.TestCase;
  */
 public class TestSimulator extends TestCase {
 
-    public Simulator s;
+    private Simulator s;
+
+    Position p;
 
     public void setUp() {
         s = new Simulator();
     }
 
-    public void testPosition() {
-        assertEquals(0, s.getPosition().getX());
-        assertEquals(0, s.getPosition().getY());
-        assertEquals(FACING.NORTH, s.getPosition().getFacing());
-        assertEquals(5, s.getTable().getWidth());
-        assertEquals(5, s.getTable().getHeight());
-        assertNotNull(s.getReports());
+    public void testDefaultConstructor() {
+        assertEquals(5, s.getTabletop().getHeight());
+        assertEquals(5, s.getTabletop().getWidth());
+        assertEquals(FACING.NORTH, s.getRobot().getFacing());
+        assertEquals(0, s.getRobot().getPosition().getX());
+        assertEquals(0, s.getRobot().getPosition().getY());
     }
 
-    public void testExecute() {
-        String[] commands_1 = {"PLACE 0,0,NORTH", "MOVE", "REPORT"};
+    public void testCleanCommandsList() {
+        String[] l1 = new String[]{"move", "left", "move", "place", "report"};
         try {
-            s.execute(commands_1);
-            assertEquals("X: 0, Y: 1, FACING: NORTH", s.report());
-            assertEquals("X: 0, Y: 1, FACING: NORTH", s.getReports().get(0));
+            l1 = s.cleanCommandsList(l1);
+            assertEquals(2, l1.length);
+            assertEquals("place", l1[0]);
+            assertEquals("report", l1[1]);
         } catch (Exception e) {
-            e.printStackTrace();
+            fail();
         }
-        String[] commands_2 = {"PLACE 0,0,NORTH", "LEFT", "REPORT"};
+        String[] l2 = new String[]{"move", "left", "move", "report"};
         try {
-            s.execute(commands_2);
-            assertEquals("X: 0, Y: 0, FACING: WEST", s.report());
-            assertEquals("X: 0, Y: 0, FACING: WEST", s.getReports().get(1));
+            s.cleanCommandsList(l2);
         } catch (Exception e) {
-            e.printStackTrace();
+            assertEquals("The commands list must contain at least one PLACE command.", e.getMessage());
         }
-        String[] commands_3 = {"PLACE 1,2,EAST", "MOVE", "MOVE", "LEFT", "MOVE", "REPORT"};
-        try {
-            s.execute(commands_3);
-            assertEquals("X: 3, Y: 3, FACING: NORTH", s.report());
-            assertEquals("X: 3, Y: 3, FACING: NORTH", s.getReports().get(2));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void testExecuteFromFile() {
-        try {
-            s.executeFromFile("EXAMPLE_A.txt");
-            assertEquals("X: 0, Y: 1, FACING: NORTH", s.report());
-            assertEquals("X: 0, Y: 1, FACING: NORTH", s.getReports().get(0));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            s.executeFromFile("EXAMPLE_B.txt");
-            assertEquals("X: 0, Y: 0, FACING: WEST", s.report());
-            assertEquals("X: 0, Y: 0, FACING: WEST", s.getReports().get(1));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            s.executeFromFile("EXAMPLE_C.txt");
-            assertEquals("X: 3, Y: 3, FACING: NORTH", s.report());
-            assertEquals("X: 3, Y: 3, FACING: NORTH", s.getReports().get(2));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /* The application should discard all commands in the sequence until a valid PLACE command has been executed. */
-    public void testCleanCommands() {
-        String[] commands = {"REPORT", "MOVE", "not a command", "PLACE 1,2,NORTH", "MOVE", "REPORT"};
-        commands = s.cleanCommands(commands);
-        assertEquals(3, commands.length);
-        assertEquals("PLACE 1,2,NORTH", commands[0]);
-    }
-
-    public void testParsePosition() {
-        String command = "PARSE 0,0,NORTH";
-        Position p;
-        try {
-            p = s.parsePosition(command);
-            assertEquals(0, p.getX());
-            assertEquals(0, p.getY());
-            assertEquals(FACING.NORTH, p.getFacing());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        command = "PARSE z,0,NORTH";
-        try {
-            s.parsePosition(command);
-        } catch (Exception e) {
-            assertEquals("X is not a valid coordinate.", e.getMessage());
-        }
-        command = "PARSE 0,z,NORTH";
-        try {
-            s.parsePosition(command);
-        } catch (Exception e) {
-            assertEquals("Y is not a valid coordinate.", e.getMessage());
-        }
-        command = "PARSE 0,0,z";
-        try {
-            s.parsePosition(command);
-        } catch (Exception e) {
-            assertEquals("FACING is not a valid value.", e.getMessage());
-        }
-    }
-
-    public void testPlace() {
-        Position p = new Position(1, 2, FACING.SOUTH);
-        s.place(p);
-        assertEquals(1, s.getPosition().getX());
-        assertEquals(2, s.getPosition().getY());
-        assertEquals(FACING.SOUTH, s.getPosition().getFacing());
-    }
-
-    public void testMove() {
-        s.move();
-        assertEquals(1, s.getPosition().getY());
-        s.setPosition(new Position(0, 1, FACING.SOUTH));
-        s.move();
-        assertEquals(0, s.getPosition().getY());
-        s.setPosition(new Position(0, 0, FACING.EAST));
-        s.move();
-        assertEquals(1, s.getPosition().getX());
-        s.setPosition(new Position(1, 0, FACING.WEST));
-        s.move();
-        assertEquals(0, s.getPosition().getX());
-    }
-
-    public void testLeft() {
-        s.left();
-        assertEquals(FACING.WEST, s.getPosition().getFacing());
-        s.setPosition(new Position(0, 0, FACING.SOUTH));
-        s.left();
-        assertEquals(FACING.EAST, s.getPosition().getFacing());
-        s.setPosition(new Position(0, 0, FACING.EAST));
-        s.left();
-        assertEquals(FACING.NORTH, s.getPosition().getFacing());
-        s.setPosition(new Position(0, 0, FACING.WEST));
-        s.left();
-        assertEquals(FACING.SOUTH, s.getPosition().getFacing());
-    }
-
-    public void testRight() {
-        s.right();
-        assertEquals(FACING.EAST, s.getPosition().getFacing());
-        s.setPosition(new Position(0, 0, FACING.SOUTH));
-        s.right();
-        assertEquals(FACING.WEST, s.getPosition().getFacing());
-        s.setPosition(new Position(0, 0, FACING.EAST));
-        s.right();
-        assertEquals(FACING.SOUTH, s.getPosition().getFacing());
-        s.setPosition(new Position(0, 0, FACING.WEST));
-        s.right();
-        assertEquals(FACING.NORTH, s.getPosition().getFacing());
-    }
-
-    public void testReport() {
-        assertEquals("X: 0, Y: 0, FACING: NORTH", s.report());
     }
 
     public void testIsValidPosition() {
-        Position p = new Position(0, 0, FACING.NORTH);
-        assertTrue(s.isValidPosition(p));
-        p = new Position(-3, 0, FACING.NORTH);
+        p = new Position(10, 0);
         assertFalse(s.isValidPosition(p));
-        p = new Position(10, 0, FACING.NORTH);
+        p = new Position(-10, 0);
         assertFalse(s.isValidPosition(p));
-        p = new Position(0, -3, FACING.NORTH);
+        p = new Position(0, 10);
         assertFalse(s.isValidPosition(p));
-        p = new Position(0, 10, FACING.NORTH);
+        p = new Position(0, -10);
         assertFalse(s.isValidPosition(p));
+    }
+
+    public void testSimulate() {
+        String[] l1 = new String[]{"place 0,0,north", "move", "report"};
+        try {
+            s.simulate(l1);
+            assertEquals(0, s.getRobot().getPosition().getX());
+            assertEquals(1, s.getRobot().getPosition().getY());
+            assertEquals(FACING.NORTH, s.getRobot().getFacing());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String[] l2 = new String[]{"place 0,0,north", "left", "report"};
+        try {
+            s.simulate(l2);
+            assertEquals(0, s.getRobot().getPosition().getX());
+            assertEquals(0, s.getRobot().getPosition().getY());
+            assertEquals(FACING.WEST, s.getRobot().getFacing());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String[] l3 = new String[]{"place 1,2,east", "move", "move", "left", "move", "report"};
+        try {
+            s.simulate(l3);
+            assertEquals(3, s.getRobot().getPosition().getX());
+            assertEquals(3, s.getRobot().getPosition().getY());
+            assertEquals(FACING.NORTH, s.getRobot().getFacing());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String[] l4 = new String[]{"place 5,5,east"};
+        try {
+            s.simulate(l4);
+        } catch (Exception e) {
+            assertEquals("The robot is OUT of the table! The simulation ends.", e.getMessage());
+        }
+        String[] l5 = new String[]{"place 0,0,east", "move", "move", "move", "move", "move"};
+        try {
+            s.simulate(l5);
+        } catch (Exception e) {
+            assertEquals("The robot is OUT of the table! The simulation ends.", e.getMessage());
+        }
     }
 
 }

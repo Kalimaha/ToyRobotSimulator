@@ -3,8 +3,8 @@ package com.reagroup.constants;
 /**
  * @author <a href="mailto:guido.barbaglia@gmail.com">Guido Barbaglia</a>
  */
-public enum COMMAND {
+public enum COMMANDS {
 
-    MOVE, LEFT, RIGHT, REPORT;
+    PLACE, MOVE, LEFT, RIGHT, REPORT
 
 }
