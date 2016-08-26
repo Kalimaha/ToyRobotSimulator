@@ -29,21 +29,23 @@ object Orientation {
   def right(current: Orientation): Orientation = Orientation(abs(current.degrees + 90))
 }
 
-case class ToyRobot(position: Position, orientation: Orientation) {
+case class ToyRobot(position: Position, robotOrientation: Orientation) {
 
-  override  def toString = s"ToyRobot is located at $position and it is currently facing $orientation"
+  def orientation: String = Orientation.degrees2orientation(robotOrientation.degrees)
+
+  override def toString = s"ToyRobot is located at $position and it is currently facing $robotOrientation."
 }
 
 object ToyRobot {
-  def move(current: ToyRobot): ToyRobot = current.orientation.degrees match {
-    case 0    =>  ToyRobot(Position(current.position.x, current.position.y + 1), current.orientation)
-    case 90   =>  ToyRobot(Position(current.position.x + 1, current.position.y), current.orientation)
-    case 180  =>  ToyRobot(Position(current.position.x, current.position.y - 1), current.orientation)
-    case 270  =>  ToyRobot(Position(current.position.x - 1, current.position.y), current.orientation)
+  def move(current: ToyRobot): ToyRobot = current.robotOrientation.degrees match {
+    case 0    =>  ToyRobot(Position(current.position.x, current.position.y + 1), current.robotOrientation)
+    case 90   =>  ToyRobot(Position(current.position.x + 1, current.position.y), current.robotOrientation)
+    case 180  =>  ToyRobot(Position(current.position.x, current.position.y - 1), current.robotOrientation)
+    case 270  =>  ToyRobot(Position(current.position.x - 1, current.position.y), current.robotOrientation)
   }
 
-  def left(current: ToyRobot): ToyRobot = ToyRobot(current.position, Orientation.left(current.orientation))
-  def right(current: ToyRobot): ToyRobot = ToyRobot(current.position, Orientation.right(current.orientation))
+  def left(current: ToyRobot): ToyRobot = ToyRobot(current.position, Orientation.left(current.robotOrientation))
+  def right(current: ToyRobot): ToyRobot = ToyRobot(current.position, Orientation.right(current.robotOrientation))
 }
 
 trait Action

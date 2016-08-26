@@ -56,4 +56,34 @@ class TestToyRobot1 extends FunSuite {
     assert(ToyRobot.move(ToyRobot(Position(0, 0), Orientation(270))).position.x == -1)
     assert(ToyRobot.move(ToyRobot(Position(0, 0), Orientation(270))).position.y == 0)
   }
+
+  test("Update: Left.") {
+    assert(Simulator.update(Left, ToyRobot(Position(0, 0), Orientation(0))).orientation == "West")
+    assert(Simulator.update(Left, ToyRobot(Position(0, 0), Orientation(0))).position.x == 0)
+    assert(Simulator.update(Left, ToyRobot(Position(0, 0), Orientation(0))).position.y == 0)
+  }
+
+  test("Update: Right.") {
+    assert(Simulator.update(Right, ToyRobot(Position(0, 0), Orientation(0))).orientation == "East")
+    assert(Simulator.update(Right, ToyRobot(Position(0, 0), Orientation(0))).position.x == 0)
+    assert(Simulator.update(Right, ToyRobot(Position(0, 0), Orientation(0))).position.y == 0)
+  }
+
+  test("Update: Move.") {
+    assert(Simulator.update(Move, ToyRobot(Position(0, 0), Orientation(0))).orientation == "North")
+    assert(Simulator.update(Move, ToyRobot(Position(0, 0), Orientation(0))).position.x == 0)
+    assert(Simulator.update(Move, ToyRobot(Position(0, 0), Orientation(0))).position.y == 1)
+  }
+
+  test("Simulate.") {
+    val actions = List(Left, Move, Right)
+    val state = Simulator.simulate(actions)
+    assert(state.position.x == -1)
+    assert(state.position.y == 0)
+    assert(state.orientation == "North")
+  }
+
+  test("Report.") {
+    assert(ToyRobot(Position(0, 0), Orientation(0)).toString == "ToyRobot is located at (0, 0) and it is currently facing North.")
+  }
 }
