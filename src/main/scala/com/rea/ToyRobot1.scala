@@ -1,5 +1,7 @@
 package com.rea
 
+import scala.annotation.tailrec
+
 case class Position(x: Int, y: Int) {
 
   override def toString = s"($x, $y)"
@@ -55,27 +57,16 @@ trait Action
   case object Report extends Action
 
 object Simulator {
-  def simulate(actions: List[Action]): ToyRobot = {
-    def loop(actions: List[Action], toyRobot: ToyRobot): ToyRobot = actions match {
-      case Nil => toyRobot
-      case h::t => loop(t, update(h, toyRobot))
+  def simulate(actions: List[ToyRobot => ToyRobot]): ToyRobot = {
+    @tailrec
+    def loop(actions: List[ToyRobot => ToyRobot], toyRobot: ToyRobot): ToyRobot = actions match {
+      case Nil  =>  toyRobot
+      case h::t =>  loop(t, h(toyRobot))
     }
     loop(actions, ToyRobot(Position(0, 0), Orientation(0)))
-  }
-
-  def update(action: Action, current: ToyRobot): ToyRobot = {
-    action match {
-      case Left   =>  ToyRobot.left(current)
-      case Right  =>  ToyRobot.right(current)
-      case Move   =>  ToyRobot.move(current)
-    }
   }
 }
 
 object ToyRobot1 {
-  def main(args: Array[String]) {
-    val actions = List(Left)
-    val state = Simulator.simulate(actions)
-    println(state)
-  }
+  def main(args: Array[String]) { }
 }
