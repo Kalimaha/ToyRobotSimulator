@@ -2,21 +2,15 @@ package com.rea
 
 import scala.annotation.tailrec
 
-case class Position(x: Int, y: Int) {
+case class Position(x: Int, y: Int) { override def toString = s"($x, $y)" }
 
-  override def toString = s"($x, $y)"
-}
-
-case class Orientation(degrees: Int) {
-
-  override def toString = Orientation.degrees2orientation(degrees)
-}
+case class Orientation(degrees: Int) { override def toString = Orientation.degrees2orientation(degrees) }
 
 object Orientation {
   def abs(current: Int): Int = {
-    if (current == 360) return 0
-    else if (current < 0) return current + 360
-    else if (current > 360) return current - 360
+    if  (current == 360)  return 0
+    if  (current < 0)     return current + 360
+    if  (current > 360)   return current - 360
     current
   }
 
@@ -50,20 +44,15 @@ object ToyRobot {
   def right(current: ToyRobot): ToyRobot = ToyRobot(current.position, Orientation.right(current.robotOrientation))
 }
 
-trait Action
-  case object Move extends Action
-  case object Left extends Action
-  case object Right extends Action
-  case object Report extends Action
-
 object Simulator {
-  def simulate(actions: List[ToyRobot => ToyRobot]): ToyRobot = {
+  /* Lo stato iniziale viene passato perche' DEVE essere la prima azione VALIDA e non viene mai piu eseguita. */
+  def simulate(initialState: ToyRobot, actions: List[ToyRobot => ToyRobot]): ToyRobot = {
     @tailrec
     def loop(actions: List[ToyRobot => ToyRobot], toyRobot: ToyRobot): ToyRobot = actions match {
       case Nil  =>  toyRobot
       case h::t =>  loop(t, h(toyRobot))
     }
-    loop(actions, ToyRobot(Position(0, 0), Orientation(0)))
+    loop(actions, initialState)
   }
 }
 

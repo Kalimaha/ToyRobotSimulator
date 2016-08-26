@@ -59,7 +59,8 @@ class TestToyRobot1 extends FunSuite {
 
   test("Simulate.") {
     val actions = List(ToyRobot.left(_), ToyRobot.move(_), ToyRobot.right(_))
-    val state = Simulator.simulate(actions)
+    val initialState = ToyRobot(Position(0, 0), Orientation(0))
+    val state = Simulator.simulate(initialState, actions)
     assert(state.position.x == -1)
     assert(state.position.y == 0)
     assert(state.orientation == "North")
