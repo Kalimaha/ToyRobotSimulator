@@ -45,14 +45,13 @@ object ToyRobot {
 }
 
 object Simulator {
-  /* Lo stato iniziale viene passato perche' DEVE essere la prima azione VALIDA e non viene mai piu eseguita. */
-  def simulate(initialState: ToyRobot, actions: List[ToyRobot => ToyRobot]): ToyRobot = {
+  def simulate(actions: List[ToyRobot => ToyRobot]): ToyRobot = {
     @tailrec
     def loop(actions: List[ToyRobot => ToyRobot], toyRobot: ToyRobot): ToyRobot = actions match {
       case Nil  =>  toyRobot
       case h::t =>  loop(t, h(toyRobot))
     }
-    loop(actions, initialState)
+    loop(actions, ToyRobot(Position(0, 0), Orientation(0)))
   }
 }
 
